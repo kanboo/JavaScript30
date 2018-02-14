@@ -62,7 +62,7 @@
   function playSound(e){
     
     // 如果是「滑鼠」點擊觸發，e.keyCode 會是 undefined，則靠 this 取得 DIV 的 data-key
-    // 一般函式的this，作為 DOM 事件偵聽函式
+    // 一般函式的this(作為 DOM 事件偵聽函式 → 該 DOM)
     // console.log(e.keyCode, this);
     const keyCode = e.keyCode || this.getAttribute('data-key');
 
@@ -81,21 +81,21 @@
   }
 
   function removeTransition(e){
+    //當CSS transition 特效播放結束後，移除CSS特效
+
     // console.log(e);  //CSS 的 TransitionEvent
     // console.log(e.propertyName);  //
     if(e.propertyName !== "transform") return; // 僅針對 transform，不是則停止
 
-    // 一般函式的this，作為 DOM 事件偵聽函式
+    // 一般函式的this(作為 DOM 事件偵聽函式 → 該 DOM)
     this.classList.remove('playing'); //移除CSS屬性
   }
 
 
-  // const keys = document.querySelectorAll('.key'); //NodeList.prototype.forEach() => IE不支援
-  // const keys = [...document.querySelectorAll('.key')]; // ES6-展開運算子(Spread Operator)
-  const keys = Array.from(document.querySelectorAll('.key'));
+  const keys = Array.from(document.querySelectorAll('.key')); // NodeList 轉換成 Array型態
   keys.forEach(key => key.addEventListener('transitionend',removeTransition))  // transitionend 事件會在 CSS transition 结束后觸發
   keys.forEach(key => key.addEventListener('click',playSound)) // 新增 滑鼠點擊 觸發音效
-  window.addEventListener("keydown", playSound);
+  window.addEventListener("keydown", playSound); //監聽 鍵盤按鍵，播放聲音、顯示特效
 </script>
 
 
