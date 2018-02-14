@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+</head>
+<body>
+
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+
+
+  <style>
+    html {
+      background:#018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
+      background-size:cover;
+      font-family:'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display:flex;
+      flex:1;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border:20px solid white;
+      border-radius:50%;
+      margin:50px auto;
+      position: relative;
+      padding:2rem;
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+
+    .hand {
+      width:50%;
+      height:6px;
+      background:black;
+      position: absolute;
+      top:50%;
+
+      
+      transform: rotate(90deg); /* 將 時、分、秒針 從 45分 旋轉至 12點 方向 */
+      transform-origin: 100% 50%; /* 將旋轉的原點移位 */
+      transition: all 0.05s cubic-bezier(0, 2.95, 1, 1); /* 讓秒針有跳動的效果 */
+      border-radius: 50%; /* 原先是 長方形 ，修改成 圓角 ，比較像 時針 */
+    }
+
+    .second-hand {
+      /* 秒針變紅色 */
+      background: red;
+    }
+
+    .hour-hand {
+      /* 將時針變短，並調整位置 */
+      width: 30%;
+      right: 50%;
+    }
+
+
+  </style>
+
+  <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
+
+    function setDate(){
+      const nowDate = new Date();
+
+      //秒針
+      const seconds = nowDate.getSeconds();
+      // console.log(seconds);
+      const secondDegrees = (360 / 60) * seconds + 90;
+
+      // 修正秒針跳動的效果
+      if(secondDegrees === 90){
+        secondHand.style.transition = 'all 0s';
+      }else{
+        secondHand.style.transition = 'all 0.05s cubic-bezier(0, 2.95, 1, 1)';
+      }
+
+      // secondHand.setAttribute("style", `transform: rotate(${secondDegrees}deg)`);  //修改CSS：第一種方法
+      secondHand.style.transform = `rotate(${secondDegrees}deg)`                      //修改CSS：第二種方法
+
+
+
+      //分針
+      const mins = nowDate.getMinutes();
+      const minDegrees = (360 / 60) * mins + 90;
+      // 修正分針跳動的效果
+      if(minDegrees === 90){
+        minHand.style.transition = 'all 0s';
+      }else{
+        minHand.style.transition = 'all 0.05s cubic-bezier(0, 2.95, 1, 1)';
+      }
+      minHand.style.transform = `rotate(${minDegrees}deg)`
+
+
+      //時針
+      const hours = nowDate.getHours();
+      const hourDegrees = (360 / 12) * hours + 90;
+      hourHand.style.transform = `rotate(${hourDegrees}deg)`
+
+    }
+
+    
+    //每秒刷新時間
+    setInterval(setDate,1000);
+
+  </script>
+</body>
+</html>
