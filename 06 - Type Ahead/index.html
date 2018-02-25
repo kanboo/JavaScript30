@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const cities = [];
+
+fetch(endpoint)
+  .then(res => res.json())
+  .then(data => cities.push(...data))
+
+function getMatchData(searchString, searchData){
+  return searchData.filter( item => {
+    // 方法1：includes
+    // 使用此方法有一缺點就是「大小寫需一致」才能符合條件。
+    // 舉例：資料為 "New York" 時，打 "York"，可搜尋的到，但是打 "york"，就會搜不到。
+    // return item.city.includes(searchString) || item.state.includes(searchString)
+    
+    // 方法2：正規表達式
+    const regex = new RegExp(searchString, 'gi'); // 參數說明 → g：Global search. 、 i：Case-insensitive search.    
+    return item.city.match(regex) || item.state.match(regex)
+  })
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function refreshForm(e){
+  // console.log(this.value);
+  // console.log(getMatchData(this.value, cities));
+
+  const matchData = getMatchData(this.value, cities);
+
+  // 第一版：
+  // const html = matchData.map( item => {
+  //   return `
+  //   <li>
+  //     <span class="name">${item.city}, ${item.state}</span>
+  //     <span class="population">${item.population}</span>
+  //   </li>`
+  // }).join('')
+
+  // 第二版：搜尋字串加顏色 、 數字新增千分位
+  const html = matchData.map( item => {
+    const regex = new RegExp(this.value, 'gi');
+    const cityName = item.city.replace(regex, `<span class="hl">${this.value}</span>`);
+    const stateName = item.state.replace(regex, `<span class="hl">${this.value}</span>`);
+
+    return `
+    <li>
+      <span class="name">${cityName}, ${stateName}</span>
+      <span class="population">${numberWithCommas(item.population)}</span>
+    </li>`
+  }).join('')
+
+
+  suggestions.innerHTML = html;
+  
+}
+
+
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+searchInput.addEventListener('input', refreshForm);
+
+</script>
+  </body>
+</html>
