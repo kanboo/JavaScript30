@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+  const canvas = document.querySelector('#draw');
+  const ctx = canvas.getContext('2d'); // 宣告為 2D 渲染環境(e.g. 2D、webgl、webg2、bitmaprenderer)
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  ctx.strokeStyle = 'blue'; // 線條顏色
+  ctx.lineJoin = 'round'; // 線條轉彎的樣式(e.g. round(圓角)、bevel(去斜角)、、miter(尖形))
+  ctx.lineCap = 'round'; //線條收尾的樣式(e.g. butt(短方形)、round(圓形)、square(長方形))
+  ctx.lineWidth = 25;
+  // ctx.globalCompositeOperation = 'source-in'; // 當有重疊的部份，如何呈現(e.g. source-over、screen、multiply、etc.)
+
+  let isDrawing = false; // 判斷是否作畫中(用滑鼠Down、Up、out狀態切換)
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+  let direction = true;
+
+
+  function draw(e){
+    if (!isDrawing) return; // 當滑鼠不是Down時，則不起作用
+    // console.log(e);
+
+    // 線條顏色
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`; 
+    
+    ctx.beginPath();
+    // start from
+    ctx.moveTo(lastX, lastY);
+    // go to
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    
+    // 更新最後的座標
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+
+
+    // 控制 線條顏色
+    hue ++;
+    if (hue >= 360){
+      hue = 0;
+    }
+
+    // 控制 lineWidth 在 1~50 之間
+    if ( ctx.lineWidth >= 50 || ctx.lineWidth <= 1) {
+      direction = !direction
+    }
+
+    if (direction){
+      ctx.lineWidth++;
+    }else{
+      ctx.lineWidth--;
+    }
+
+  }
+
+
+  // 當 滑鼠點擊 時，代表 開始作畫
+  canvas.addEventListener('mousedown', (e) => {
+    // console.log(this); // window
+    isDrawing = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  });
+
+
+  // canvas.addEventListener('mousedown', function(e) {
+  //   console.log(this); //DOM元素
+  //   isDrawing = true;
+  //   [lastX, lastY] = [e.offsetX, e.offsetY];
+  // });
+
+
+  // 作畫中...
+  canvas.addEventListener('mousemove', draw);
+
+  // 當 滑鼠放開 或 超出範圍  時，代表 結束作畫
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
+</script>
+
+<style>
+  html, body {
+    margin:0;
+  }
+</style>
+
+</body>
+</html>
