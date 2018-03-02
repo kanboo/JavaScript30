@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log('Kanboo');
+
+    // Interpolated
+    console.log('Hello I am a %s !', 'Kanboo'); // 一個變數
+    console.log('Hello I am a %s ， %s!', 'Kanboo' , '你好嗎？'); // 二個變數
+
+    // Styled
+    console.log('%c I am Kaing!!', 'font-size:30px;')
+    
+    // warning!
+    console.warn('顯示可能會發生錯誤的訊息'); // 警告
+
+    // Error :|
+    console.error('顯示已發生錯誤訊息'); // 錯誤
+
+    // Info
+    console.info('資訊'); // 失效，沒有顯示「帶白色“i”的藍色圓圈」
+
+    // Testing
+    function greaterThan(a,b) {
+      console.assert(a > b, "錯誤：" + a + " 沒有比 " + b + " 大");
+    }
+
+    greaterThan(1,20); // 條件為false，會顯示 錯誤訊息
+    greaterThan(20,1); // 條件為true，不顯示log
+
+
+    // clearing
+    // console.clear();
+
+    // Viewing DOM Elements
+    // 比較取得 DOM元素後，用 log 和 dir 顯示的差異
+    const p = document.querySelector('p');
+    console.log(p);
+    console.dir(p);
+
+    // Grouping together
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`); //Group-起頭
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`); //Group-結尾
+    });
+
+    // counting
+    console.count('汪汪');
+    console.count('喵喵');
+    console.count('汪汪');
+    console.count('喵喵');
+    console.count('汪汪');
+    console.count('喵喵');
+    console.count('喵喵');
+    console.count('喵喵');
+
+    // timing
+    console.time('fetching data(花費時間)');
+    fetch('https://api.github.com/users/wesbos')
+    .then(data => data.json())
+    .then(data => {
+      console.timeEnd('fetching data(花費時間)');
+      console.log(data);
+    });
+
+    // table
+    console.table(dogs);
+
+  </script>
+</body>
+</html>
