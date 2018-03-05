@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+
+const superKey = 'kanboo';
+const keyArr = [];
+
+function isSuperKey(e){
+  // console.log(e.key);
+
+  keyArr.push(e.key);
+  // console.log(keyArr);
+
+  // 只保留與superKey一樣長度的字元，多餘的去除掉。
+  keyArr.splice(0, keyArr.length - superKey.length);
+  // keyArr.splice(-superKey.length - 1, keyArr.length - superKey.length); // 作者寫法：從後往前計算
+  console.log(keyArr);
+
+  console.log(keyArr.join('').includes(superKey));
+  if ( keyArr.join('').includes(superKey)){
+    cornify_add();
+  }
+  
+}
+
+window.addEventListener('keydown', isSuperKey);
+
+
+</script>
+</body>
+</html>
