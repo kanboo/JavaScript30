@@ -69,15 +69,15 @@
 		// 取得 正值或負值 的座標，如： 最大偏移量的值=100，取得範圍落於 -50~50 之間
 		const xWalk = Math.round((x / width * walk) - (walk / 2));
 		const yWalk = Math.round((y / height * walk) - (walk / 2));
-		
-		
+
+
 		text.style.textShadow = `
 			${xWalk}px ${yWalk * -0.7}px 0 rgba(255,0,0,0.3),
 			${xWalk * -1}px ${yWalk}px 0 rgba(0,255,0,0.3),
 			${yWalk}px ${xWalk * -0.5}px 0 rgba(0,255,255,0.3),
 			${yWalk * -1}px ${xWalk}px 0 rgba(0,0,255,0.3)
 		`;
-		
+
   }
 
 

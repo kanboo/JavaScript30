@@ -182,8 +182,8 @@
     </li>
   </ul>
 <script>
-  
-  /* 執行步驟  
+
+  /* 執行步驟
   1. 取得所有 data-time 的DOM元素，並轉換成 Array，以便可使用map..等method
   2. 計算出總秒數
     2-1. 取得 時間(分、秒)
@@ -192,7 +192,7 @@
   3. 將 總秒數 計算成 時、分、秒 顯示
     3-1. 先計算 小時，只取 商數
     3-2. 剩下的秒數，再計算 分鐘，只取 商數
-    3-3. 最後就是剩餘的 秒數 
+    3-3. 最後就是剩餘的 秒數
   */
 
   /* 1. 取得所有 data-time 的DOM元素，並轉換成 Array，以便可使用map..等method */
@@ -209,7 +209,7 @@
       // 簡寫
       const [mins, secs] = time.split(':').map(parseFloat);
       // console.log(mins, secs);
-      
+
       return (mins * 60) + secs
     })
     .reduce( (total , second) =>  total + second)
@@ -232,9 +232,9 @@
   // secondsLeft = secondsLeft - (minutes * 60);
   secondsLeft = secondsLeft % 60;
 
-  
+
   console.log(`${hours}:${minutes}:${secondsLeft}`);
-  
+
 
 </script>
 </body>
