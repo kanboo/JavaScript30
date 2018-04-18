@@ -202,21 +202,24 @@
 
   /* 2. 計算出總秒數 */
   const seconds = timeNodes
+    // 取出每個元素中的data-time資料
     .map( node => node.dataset.time )
+    // 將 分、秒 拆解並轉成 秒數
     .map( time => {
-      // 將 分、秒 拆解並轉成 數字
       // const [mins, secs] = time.split(':').map( str => parseFloat(str));
-      // 簡寫
+      // 可簡化如下
       const [mins, secs] = time.split(':').map(parseFloat);
-      // console.log(mins, secs);
 
       return (mins * 60) + secs
     })
+    // 用reduce來加總每次執行結果
     .reduce( (total , second) =>  total + second)
 
 
 
   /* 3. 將 總秒數 計算成 時、分、秒 顯示 */
+  // 使用Math.floor取整數，再利用%來操作餘數
+
   let secondsLeft = seconds;
   // 計算 時數
   const hours = Math.floor(secondsLeft / (60 * 60));

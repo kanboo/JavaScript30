@@ -26,35 +26,44 @@
   </div>
 
 <script>
-  const addItems = document.querySelector('.add-items');
-  const itemsList = document.querySelector('.plates');
+  const addItems = document.querySelector('.add-items');  //送出按鈕
+  const itemsList = document.querySelector('.plates');    //UL清單
+  //const items = [];   //儲存List清單的項目
   const items = JSON.parse(localStorage.getItem('items')) || [];
 
   // console.log(JSON.parse(localStorage.getItem('items'))); // 若無值則為null
-  
-  
+
+
   function addItem(e){
     e.preventDefault();
+
+    /* 因為點擊的元素 = addItems，所以可以直接用 this 進行後續的動作 */
     // const item = addItems.querySelector('[name="item"]');
     const text = (this.querySelector('[name=item]')).value;
+
+    /* 產生新物件，紀錄輸入的文字與是否勾選的狀態(done) */
     const obj = {
-      // text: item.value,
-      text,
+      // text: item.value,  //es5寫法
+      text,  //使用es6的解構賦值:text:text
       done: false
     }
 
+    // 新增List清單的項目
     items.push(obj);
-    // console.log(items);
 
+    // 刷新html的List清單
     populateList(items, itemsList);
+
+    // 額外將資料存在localStorage
     localStorage.setItem('items', JSON.stringify(items)); // localStorage 只接受字串
 
-    
+
     // item.value = '';
     this.reset(); // reset也可清空表單
-
   }
 
+
+  /* 刷新html的List清單 */
   function populateList(plates = [], platesList) {
     platesList.innerHTML = plates.map((plate, index) => {
       return `
@@ -66,20 +75,33 @@
     }).join('');
   }
 
+
+  /* 監聽並儲存checkbox狀態 */
   function toggleDone(e) {
-    if (!e.target.matches('input')) return; 
+    // 判斷是 input:checkbox 才執行
+    if (!e.target.matches('input')) return;
     // console.log(e.target);
-    
+
+    // 取得checkbox的data-index值
     const el = e.target;
     const index = el.dataset.index;
-    items[index].done = !items[index].done; // 切換是否已done的flag
+
+    /* 以往會用 if else 去判斷，可用 「!」來反轉上次的結果。 */
+    // 切換是否已done的flag
+    items[index].done = !items[index].done;
+
+    // 更新localStorage
     localStorage.setItem('items', JSON.stringify(items));
+
+    // 刷新html的List清單
     populateList(items, itemsList);
   }
 
-  addItems.addEventListener('submit', addItem);
-  itemsList.addEventListener('click', toggleDone);
+  addItems.addEventListener('submit', addItem);  //取得輸入項目，並新增至LocalStorage
+  itemsList.addEventListener('click', toggleDone);  //監聽並儲存checkbox狀態
 
+
+  // 刷新html的List清單
   populateList(items, itemsList);
 
 </script>
