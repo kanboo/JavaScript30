@@ -31,7 +31,7 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
-    
+
     /* 解法 */
     // const bornArr = inventors.filter(function(inventor){
     //   if (inventor.year >= 1500 && inventor.year < 1600){
@@ -82,7 +82,7 @@
     /* 解法 */
     // const totalYears = inventors.reduce(function(total, inventor){
     //   return total + (inventor.passed - inventor.year)
-    // }, 0) 
+    // }, 0)
 
     /* 簡化語法 */
     const totalYears = inventors.reduce( (total, inventor) => total + (inventor.passed - inventor.year) , 0)

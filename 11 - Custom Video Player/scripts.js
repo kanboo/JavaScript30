@@ -38,7 +38,7 @@ function scrub(e) {
     // progress.offsetWidth 進度條的總寬度
     // video.duration 屬性返回當前音頻/視頻的長度，以秒計。
     // console.log(e.offsetX, progress.offsetWidth, video.duration);
-    
+
     const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
     video.currentTime = scrubTime;
 }

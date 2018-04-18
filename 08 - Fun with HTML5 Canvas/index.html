@@ -30,15 +30,15 @@
     // console.log(e);
 
     // 線條顏色
-    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`; 
-    
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
     ctx.beginPath();
     // start from
     ctx.moveTo(lastX, lastY);
     // go to
     ctx.lineTo(e.offsetX, e.offsetY);
     ctx.stroke();
-    
+
     // 更新最後的座標
     [lastX, lastY] = [e.offsetX, e.offsetY];
 

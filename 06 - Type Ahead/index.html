@@ -29,9 +29,9 @@ function getMatchData(searchString, searchData){
     // 使用此方法有一缺點就是「大小寫需一致」才能符合條件。
     // 舉例：資料為 "New York" 時，打 "York"，可搜尋的到，但是打 "york"，就會搜不到。
     // return item.city.includes(searchString) || item.state.includes(searchString)
-    
+
     // 方法2：正規表達式
-    const regex = new RegExp(searchString, 'gi'); // 參數說明 → g：Global search. 、 i：Case-insensitive search.    
+    const regex = new RegExp(searchString, 'gi'); // 參數說明 → g：Global search. 、 i：Case-insensitive search.
     return item.city.match(regex) || item.state.match(regex)
   })
 }
@@ -70,7 +70,7 @@ function refreshForm(e){
 
 
   suggestions.innerHTML = html;
-  
+
 }
 
 
