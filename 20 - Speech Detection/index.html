@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Speech Detection</title>
+</head>
+<body>
+
+  <div class="words" contenteditable>
+  </div>
+
+<script>
+
+  /*
+  實作步驟：
+  1. 建立語音辨識物件
+  2. 新增文字區塊
+  3. 監聽並寫入語音資料
+  */
+
+  /* setp 1. 建立語音辨識物件 */
+  // 將全域環境中的 SpeechRecognition 設定好，根據不同瀏覽器
+  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  // 建立 語音識別功能
+  const recognition = new SpeechRecognition();
+  // 允許語音辨識回傳識別後的資料
+  recognition.interimResults = true;
+
+
+  /* setp 2. 新增文字區塊 */
+  let p = document.createElement('p');
+  const words = document.querySelector('.words');
+  words.appendChild(p);
+
+  /* setp 3. 監聽並寫入語音資料 */
+  // 監聽識別回傳
+  recognition.addEventListener('result', e => {
+    // 回傳資料為 nodelist，故轉為 array 執行
+    const transcript = Array.from(e.results)
+      // 透過 map 取得 陣列的第1筆
+      .map(result => result[0])
+      // 再取出第1筆的 transcript
+      .map(result => result.transcript)
+      // 用 join 將連結符號消掉
+      .join('')
+
+    // 將回傳的文字，先過濾 髒字
+    const poopScript = transcript.replace(/poop|poo|shit|dump/gi, '💩');
+    // 過濾完後，將回傳內容塞到 p元素
+    p.textContent = poopScript;
+
+
+    // 若回傳內容已經結束，再重新建立一個新的 p元素 來放下一次內容
+    if (e.results[0].isFinal) {
+      p = document.createElement('p');
+      words.appendChild(p);
+    }
+  })
+
+
+  // 如果語音辨識結束，則重新打開語音辨識。
+  recognition.addEventListener('end', recognition.start);
+
+  // 開始識別
+  recognition.start();
+
+
+</script>
+
+
+  <style>
+    html {
+      font-size: 10px;
+    }
+
+    body {
+      background:#ffc600;
+      font-family: 'helvetica neue';
+      font-weight: 200;
+      font-size: 20px;
+    }
+
+    .words {
+      max-width:500px;
+      margin:50px auto;
+      background:white;
+      border-radius:5px;
+      box-shadow:10px 10px 0 rgba(0,0,0,0.1);
+      padding:1rem 2rem 1rem 5rem;
+      background: -webkit-gradient(linear, 0 0, 0 100%, from(#d9eaf3), color-stop(4%, #fff)) 0 4px;
+      background-size: 100% 3rem;
+      position: relative;
+      line-height:3rem;
+    }
+    p {
+      margin: 0 0 3rem;
+    }
+
+    .words:before {
+      content: '';
+      position: absolute;
+      width: 4px;
+      top: 0;
+      left: 30px;
+      bottom: 0;
+      border: 1px solid;
+      border-color: transparent #efe4e4;
+    }
+  </style>
+
+</body>
+</html>

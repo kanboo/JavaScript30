@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Speech Synthesis</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="voiceinator">
+
+      <h1>The Voiceinator 5000</h1>
+
+      <select name="voice" id="voices">
+        <option value="">Select A Voice</option>
+      </select>
+
+      <label for="rate">Rate:</label>
+      <input name="rate" type="range" min="0" max="3" value="1" step="0.1">
+
+      <label for="pitch">Pitch:</label>
+
+      <input name="pitch" type="range" min="0" max="2" step="0.1">
+      <textarea name="text">Hello! I love JavaScript 👍</textarea>
+      <button id="stop">Stop!</button>
+      <button id="speak">Speak</button>
+
+    </div>
+
+<script>
+
+  /*
+    實作步驟：
+    1. 取得 相關DOM元素 並設定 SpeechSynthesisUtterance(語音設定)
+    2. 監聽 SpeechSynthesis(語音播放) 的 voiceschanged 事件，取得 語系 相關資料
+    3. 設定 發音語系
+    4. 監聽 語系是否變更，更新語音設定，並播放語音
+    5. 監聽 速率、音調、文字區塊 是否變更，更新語音設定，並播放語音
+    6. 監聽 buttom 的 click事件，播放或取消語音
+     */
+
+  // 設定語音服務應讀取的文字內容及播放的細節(語言、音調、聲音、速率...等屬性)
+  const msg = new SpeechSynthesisUtterance();
+  let voices = [];
+  const voicesDropdown = document.querySelector('[name="voice"]');
+  const options = document.querySelectorAll('[type="range"], [name="text"]');
+  const speakButton = document.querySelector('#speak');
+  const stopButton = document.querySelector('#stop');
+
+  // 設定發音的文字內容
+  msg.text = document.querySelector('[name="text"]').value;
+
+  // 將一段文字加入發音庫，播放語音。
+  //speechSynthesis.speak(msg);
+
+  // 取得 語系 相關資料
+  function populateVoices() {
+    /* 取得 speechSynthesis 中所有的 SpeechSynthesisVoice 物件，
+    而物件的屬性為 所有發音的資訊 */
+    voices = this.getVoices();
+
+    // 取出所有語系，組成HTML後，更新下拉清單的值
+    voicesDropdown.innerHTML = voices
+      .map(voice => `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`)
+      .join('');
+  }
+
+  // 設定 發音語系
+  function setVoice() {
+    // 根據select挑選的值，從所有的 SpeechSynthesisVoice 物件中，取出符合條件的物件
+    msg.voice = voices.find(voice => voice.name === this.value);
+
+    // 播放語音
+    toggle();
+  }
+
+  // 設定速率跟音準
+  function setOption() {
+    /*
+    透過 DOM元素的命名方式，
+    將 name命名 與 SpeechSynthesisUtterance物件屬性 取一樣名稱，
+    在二邊的配合下，這樣就可以更精簡程式碼。
+    */
+
+    // 更新 語音設定
+    msg[this.name] = this.value;
+
+    // 播放語音
+    toggle();
+  }
+
+  // 觸發 播放語音
+  function toggle(startOver = true) {
+    // 移除所有的發音資訊
+    speechSynthesis.cancel();
+
+    // 將一段文字加入發音庫，播放語音
+    if (startOver) {
+      speechSynthesis.speak(msg);
+    }
+  }
+
+  // 監聽 voiceschanged 事件(當 SpeechSynthesisVoice 清單改變時，就會觸發此事件)
+  speechSynthesis.addEventListener('voiceschanged', populateVoices);
+  // 監聽 語系 是否變更
+  voicesDropdown.addEventListener('change', setVoice);
+  // 監聽 速率、音調、文字區塊 是否變更
+  options.forEach(option => option.addEventListener('change', setOption));
+  // 播放按鈕
+  speakButton.addEventListener('click', toggle);
+  // 停止按鈕
+  stopButton.addEventListener('click', () => toggle(false));
+
+</script>
+
+</body>
+</html>

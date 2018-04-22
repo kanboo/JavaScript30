@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>👀👀👀Follow Along Nav</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav>
+    <ul class="menu">
+      <li>
+        <a href="">Home</a>
+      </li>
+      <li>
+        <a href="">Order Status</a>
+      </li>
+      <li>
+        <a href="">Tweets</a>
+      </li>
+      <li>
+        <a href="">Read Our History</a>
+      </li>
+      <li>
+        <a href="">Contact Us</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="wrapper">
+    <p>Lorem ipsum dolor sit amet,
+      <a href="">consectetur</a> adipisicing elit. Est
+      <a href="">explicabo</a> unde natus necessitatibus esse obcaecati distinctio, aut itaque, qui vitae!</p>
+    <p>Aspernatur sapiente quae sint
+      <a href="">soluta</a> modi, atque praesentium laborum pariatur earum
+      <a href="">quaerat</a> cupiditate consequuntur facilis ullam dignissimos, aperiam quam veniam.</p>
+    <p>Cum ipsam quod, incidunt sit ex
+      <a href="">tempore</a> placeat maxime
+      <a href="">corrupti</a> possimus
+      <a href="">veritatis</a> ipsum fugit recusandae est doloremque? Hic,
+      <a href="">quibusdam</a>, nulla.</p>
+    <p>Esse quibusdam, ad, ducimus cupiditate
+      <a href="">nulla</a>, quae magni odit
+      <a href="">totam</a> ut consequatur eveniet sunt quam provident sapiente dicta neque quod.</p>
+    <p>Aliquam
+      <a href="">dicta</a> sequi culpa fugiat
+      <a href="">consequuntur</a> pariatur optio ad minima, maxime
+      <a href="">odio</a>, distinctio magni impedit tempore enim repellendus
+      <a href="">repudiandae</a> quas!</p>
+  </div>
+
+  <script>
+    /*
+    實作步驟：
+    1. 取得所有 a元素，並監聽 mouseenter 事件
+    2. 建立一個 span 來產生 highlight 效果
+    3. 更新span的 「寬高、定位」，讓 highlight效果 在準確的位置
+     */
+
+    /* step 1. 取得所有 a元素，並監聽 mouseenter 事件 */
+    // 取得HTML中所有的a元素
+    const triggers = document.querySelectorAll('a');
+
+    /* step 2. 建立一個 span 來產生 highlight 效果 */
+    const highlight = document.createElement('span');
+    highlight.classList.add('highlight');
+    // 將建立的 span 加到頁面中
+    document.body.append(highlight);
+
+    /* step 3. 更新span的「寬高、定位」，讓 highlight效果 在準確的位置 */
+    function highlightLink() {
+      // 目標元素的 大小 與 相對於瀏覽器視窗的位置資訊
+      const linkCoords = this.getBoundingClientRect();
+      console.log(linkCoords);
+
+      // 儲存span的「寬高、定位」 資訊
+      const coords = {
+        width: linkCoords.width,
+        height: linkCoords.height,
+        top: linkCoords.top + window.scrollY, // 定位新增 window.scroll 的影響因素
+        left: linkCoords.left + window.scrollX // 定位新增 window.scroll 的影響因素
+      };
+
+      // 設定 highlight效果 的「寬高、定位」
+      highlight.style.width = `${coords.width}px`;
+      highlight.style.height = `${coords.height}px`;
+      highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+    }
+
+    // 監聽所有 a元素 的 滑鼠移入 事件
+    triggers.forEach(a => a.addEventListener('mouseenter', highlightLink));
+  </script>
+</body>
+
+</html>
