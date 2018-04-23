@@ -54,7 +54,8 @@
   divs.forEach(div => div.addEventListener('click', logText, false));
 
 
-  // 在 button 的 addEventListener 第三個參數裡，多設定 once 的屬性
+  // 在 button 的 addEventListener 第三個參數裡，設定 once 的屬性
+  // 一旦第一次被 觸發 後，就會移除本身的監聽事件。
   button.addEventListener('click', () => {
     console.log('Click!!!');
   }, {
