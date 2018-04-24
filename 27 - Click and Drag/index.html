@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Click and Drag</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="items">
+    <div class="item item1">01</div>
+    <div class="item item2">02</div>
+    <div class="item item3">03</div>
+    <div class="item item4">04</div>
+    <div class="item item5">05</div>
+    <div class="item item6">06</div>
+    <div class="item item7">07</div>
+    <div class="item item8">08</div>
+    <div class="item item9">09</div>
+    <div class="item item10">10</div>
+    <div class="item item11">11</div>
+    <div class="item item12">12</div>
+    <div class="item item13">13</div>
+    <div class="item item14">14</div>
+    <div class="item item15">15</div>
+    <div class="item item16">16</div>
+    <div class="item item17">17</div>
+    <div class="item item18">18</div>
+    <div class="item item19">19</div>
+    <div class="item item20">20</div>
+    <div class="item item21">21</div>
+    <div class="item item22">22</div>
+    <div class="item item23">23</div>
+    <div class="item item24">24</div>
+    <div class="item item25">25</div>
+  </div>
+
+<script>
+  const slider = document.querySelector('.items');
+  let isDown = false;  // 紀錄 滑鼠是否點擊的狀態
+  let startX;  // 紀錄 滑鼠最初點擊的位置
+  let scrollLeft;
+
+  // 滑鼠點擊
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+
+    // 紀錄 點擊初始位置
+    // e.pageX：整個頁面的 x軸 距離
+    // slider.offsetLeft：目前DOM位於父元素的X座標
+    startX = e.pageX - slider.offsetLeft;
+    // console.log(e.pageX , slider.offsetLeft);
+
+    // 紀錄 目前捲軸的左距
+    scrollLeft = slider.scrollLeft;
+  });
+
+  // 滑鼠超出範圍
+  slider.addEventListener('mouseleave', () => {
+    // 取消狀態及樣式
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  // 滑鼠按鍵放開
+  slider.addEventListener('mouseup', () => {
+    // 取消狀態及樣式
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  // 滑鼠移動
+  slider.addEventListener('mousemove', (e) => {
+    // 非點擊狀態時，不作用
+    if (!isDown) return;
+    // 取消預設行為(點擊且拖移的動作，預設行為是 選取範圍)
+    e.preventDefault();
+
+    // 目前位置 = 整個頁面x軸距離 - 目前items的左邊距離
+    const x = e.pageX - slider.offsetLeft;
+    // console.log({x, startX});
+
+    // 移動距離 = 目前位置 - 點擊初始位置
+    const walk = x - startX;
+    // const walk = (x - startX) * 3;  //乘3倍的概念，感覺像增加滑鼠的敏感度
+    // console.log(walk);
+
+    // 設定 水平捲軸的偏移量
+    slider.scrollLeft = scrollLeft - walk;
+    // console.log(slider.scrollLeft);
+  });
+</script>
+
+  </body>
+</html>
