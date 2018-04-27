@@ -36,28 +36,28 @@
 
   /*
   完成事項清單：
-  - 隨機出現地鼠
+  - 隨機出現哪隻地鼠
   - 地鼠出現停留的時間
-  - 開始遊戲與結束遊戲
+  - 如何開始遊戲與結束遊戲
   - 遊戲的總時間
   - 判斷是否有打到地鼠
   - 紀錄打到地鼠的分數
    */
 
-  const holes = document.querySelectorAll('.hole');
-  const scoreBoard = document.querySelector('.score');
-  const moles = document.querySelectorAll('.mole');
-  let lastHole;
+  const holes = document.querySelectorAll('.hole'); // 地洞
+  const scoreBoard = document.querySelector('.score'); // 分數
+  const moles = document.querySelectorAll('.mole'); // 地鼠
+  let lastHole; // 紀錄 最後一次出現的地洞
   let timeUp = false; // 開關遊戲Flag(false:開，true：關)
   let score = 0; // 紀錄分數
 
-  // 回傳 一個隨機數
+  // 回傳 一個隨機數字
   function randomTime(min, max) {
     // 產生一個小數點後四捨五入的亂數時間區間
     return Math.round(Math.random() * (max - min) + min);
   }
 
-  // 回傳 一個隨機取得的hole元素
+  // 回傳 一個隨機的地洞
   function randomHole(holes) {
     const idx = Math.floor(Math.random() * holes.length);
     const hole = holes[idx];
@@ -68,7 +68,7 @@
       return randomHole(holes);
     }
 
-    // 紀錄 最後一次的 hole
+    // 紀錄 最後一次的地洞
     lastHole = hole;
     return hole;
   }
@@ -86,7 +86,7 @@
     setTimeout(() => {
       // 移除class(地鼠消失)
       hole.classList.remove('up');
-      // 開關遊戲Flag
+      // 判斷是否結束遊戲
       if (!timeUp) peep();
     }, time);
   }
