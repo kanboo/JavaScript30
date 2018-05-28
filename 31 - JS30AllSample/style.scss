@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Dancing+Script');
-@import "./reset";
+@import './reset';
 body {
   font-size: 16px;
   background-color: #f4f4f4;
-  font-family: 'Questrial', "微軟正黑體", sans-serif;
+  font-family: 'Questrial', '微軟正黑體', sans-serif;
 }
 
 .container {
@@ -17,7 +17,6 @@ body {
 .header {
   padding-bottom: 20px;
   border-bottom: 1px solid #ccc;
-
   &__title {
     font-size: 6em;
     font-family: 'Dancing Script', cursive;
@@ -59,8 +58,8 @@ body {
   margin-bottom: 40px;
   display: flex;
   flex-flow: column wrap;
-  transition: all .3s;
-  transform: scale(.95);
+  transition: all 0.3s;
+  transform: scale(0.95);
 }
 
 .courseList__item:hover {
